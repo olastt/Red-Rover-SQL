@@ -42,19 +42,38 @@
    ORDER BY Title ASC
      
 # Покажите название самой короткой песни.
-  USE chinook;
-  SELECT name
-  FROM track
-  ORDER BY Milliseconds ASC
-  LIMIT 1;
+   USE chinook;
+   SELECT name
+   FROM track
+   ORDER BY Milliseconds ASC
+   LIMIT 1;
     
 # Покажите название и длительность в секундах самой короткой песни. Столбец назвать sec.
-  USE chinook;
-  SELECT name, (Milliseconds / 1000) AS sec
-  FROM track
-  ORDER BY Milliseconds ASC
-  LIMIT 1;
+   USE chinook;
+   SELECT name, (Milliseconds / 1000) AS sec
+   FROM track
+   ORDER BY Milliseconds ASC
+   LIMIT 1;
  
 # Покажите средний возраст сотрудников, работающих в компании
-#
-#
+	
+# Проведите аналитическую работу: узнайте фамилию, имя и компанию покупателя (номер 5).
+  Сколько заказов он сделал и на какую сумму. Покажите 2 запроса Вашей работы.
+  USE chinook;
+  SELECT FirstName, LastName, Company
+  FROM customer
+  WHERE CustomerId = 5;
+
+  USE chinook;
+  SELECT invoice.InvoiceId, invoice.CustomerId, invoice.Total, customer.FirstName, customer.LastName
+  FROM invoice
+  INNER JOIN customer ON customer.CustomerId = invoice.CustomerId
+  WHERE invoice.CustomerId = 5;
+
+# Найти все ID счет-фактур, в которых количество товаров больше или равно 6 и меньше или равно 9.
+ USE chinook;
+  SELECT invoiceline.InvoiceId
+  FROM invoiceline
+  INNER JOIN invoice ON invoice.InvoiceId = invoiceline.InvoiceId
+  GROUP BY invoiceline.InvoiceId
+  HAVING COUNT(TrackId) BETWEEN 6 AND 9
